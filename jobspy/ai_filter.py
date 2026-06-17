@@ -150,3 +150,11 @@ def _safe_int(val) -> Optional[int]:
         return int(val) if val is not None else None
     except (TypeError, ValueError):
         return None
+
+
+def enrich_single(job: JobPost, api_key: str) -> bool:
+    """Enrich one job in-place. Returns True if it passes the relevance filter."""
+    _enrich_batch([job], api_key)
+    score = job.ai_relevance_score or 0
+    visa = job.visa_sponsorship or 'unknown'
+    return score >= 40 or visa == 'yes'
