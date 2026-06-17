@@ -117,8 +117,8 @@ cookie persistence between requests.
 ### 3. AI Filter Layer
 
 **File:** `JobSpy/jobspy/ai_filter.py`
-**Model:** Nexos Claude Sonnet 4.6 (already configured in OpenClaw, free)
-**API base:** https://api.nexos.ai/v1
+**Model:** DeepSeek V4 Pro ()
+**API base:** https://api.deepseek.com (OpenAI-compatible)
 
 **Per-job extractions (batched 10 at a time):**
 - `relevance_score` 0–100: relevance to AI/ML/software engineering
@@ -228,7 +228,7 @@ sources:
 |----------------------|-------------------------------------------------|
 | Base scraping lib    | Fork of `speedyapply/JobSpy` (MIT)              |
 | Seek scraper         | New module — Seek unofficial REST + GraphQL API |
-| AI filtering         | Nexos Claude Sonnet 4.6 (free, already wired)   |
+| AI filtering         | DeepSeek V4 Pro (already configured in OpenClaw) |
 | Google Sheets        | `gspread` + service account                     |
 | Scheduling           | OpenClaw native cron                            |
 | Delivery             | OpenClaw → Telegram                             |
@@ -254,7 +254,7 @@ sources:
 | 2 | Extend JobPost model (visa, score, resume fields)           | pending |
 | 3 | Build Seek.com.au scraper module                            | pending |
 | 4 | Fix Glassdoor CSRF bug (unmerged upstream PR)               | pending |
-| 5 | Build AI filter layer (Nexos API)                           | pending |
+| 5 | Build AI filter layer (DeepSeek V4 Pro)                           | pending |
 | 6 | Build resume matcher                                        | pending |
 | 7 | Set up Google Cloud service account + Sheet                 | pending |
 | 8 | Build Google Sheets exporter                                | pending |
