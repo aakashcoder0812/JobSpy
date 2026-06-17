@@ -55,16 +55,23 @@ def scrape_all(config: dict) -> tuple[list[JobPost], dict[str, str]]:
     for term in terms:
         for source_name, site in zip(config["sources"], sources):
             try:
-                df = scrape_jobs(
-                    site_name=site,
-                    search_term=term,
-                    location=location,
-                    country_indeed="australia",
-                    results_wanted=results_per_term,
-                    hours_old=hours_old,
-                    description_format="markdown",
-                    linkedin_fetch_description=True,
-                )
+                from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
+                with ThreadPoolExecutor(max_workers=1) as tex:
+                    future = tex.submit(scrape_jobs,
+                        site_name=site,
+                        search_term=term,
+                        location=location,
+                        country_indeed="australia",
+                        results_wanted=results_per_term,
+                        hours_old=hours_old,
+                        description_format="markdown",
+                        linkedin_fetch_description=False,
+                    )
+                    try:
+                        df = future.result(timeout=90)  # 90s max per scraper/term combo
+                    except FutureTimeout:
+                        print(f"  [{source_name}] '{term}' timed out after 90s — skipping")
+                        continue
                 if df.empty:
                     continue
 
