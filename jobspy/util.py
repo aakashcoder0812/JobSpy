@@ -360,4 +360,10 @@ desired_order = [
     "company_reviews_count",
     "vacancy_count",
     "work_from_home_type",
+    # Job Hunter agent fields
+    "visa_sponsorship",
+    "ai_relevance_score",
+    "tech_stack",
+    "resume_match",
+    "match_reason",
 ]

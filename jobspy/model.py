@@ -280,6 +280,13 @@ class JobPost(BaseModel):
     vacancy_count: int | None = None  #from vacancy
     work_from_home_type: str | None = None  #from clusters.wfhType (e.g., "Hybrid", "Remote")
 
+    # Job Hunter agent fields
+    visa_sponsorship: str | None = None      # "yes" / "no" / "unknown"
+    ai_relevance_score: int | None = None    # 0-100, AI-assigned relevance to AI/software roles
+    tech_stack: list[str] | None = None      # technologies extracted by AI from description
+    resume_match: str | None = None          # which resume variant to use
+    match_reason: str | None = None          # 1-line explanation of resume match
+
 class JobResponse(BaseModel):
     jobs: list[JobPost] = []
 
@@ -293,6 +300,7 @@ class Site(Enum):
     BAYT = "bayt"
     NAUKRI = "naukri"
     BDJOBS = "bdjobs"  # Add this line
+    SEEK = "seek"
 
 
 class SalarySource(Enum):

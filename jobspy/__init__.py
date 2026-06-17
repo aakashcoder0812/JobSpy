@@ -189,6 +189,9 @@ def scrape_jobs(
             job_data["skills"] = (
                 ", ".join(job_data["skills"]) if job_data["skills"] else None
             )
+            job_data["tech_stack"] = (
+                ", ".join(job_data["tech_stack"]) if job_data["tech_stack"] else None
+            )
             job_data["experience_range"] = job_data.get("experience_range")
             job_data["company_rating"] = job_data.get("company_rating")
             job_data["company_reviews_count"] = job_data.get("company_reviews_count")
