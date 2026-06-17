@@ -151,15 +151,26 @@ class Glassdoor(Scraper):
 
     def _get_csrf_token(self):
         """
-        Fetches csrf token needed for API by visiting a generic page
+        Fetches csrf token needed for API by visiting a generic page.
+        Tries multiple URLs in case one 404s (upstream issue #347).
         """
-        res = self.session.get(f"{self.base_url}/Job/computer-science-jobs.htm")
+        candidate_urls = [
+            f"{self.base_url}/",
+            f"{self.base_url}/Jobs/",
+            f"{self.base_url}/job-listing/",
+            f"{self.base_url}/Job/computer-science-jobs.htm",
+        ]
         pattern = r'"token":\s*"([^"]+)"'
-        matches = re.findall(pattern, res.text)
-        token = None
-        if matches:
-            token = matches[0]
-        return token
+        for url in candidate_urls:
+            try:
+                res = self.session.get(url, timeout=10)
+                if res.status_code == 200:
+                    matches = re.findall(pattern, res.text)
+                    if matches:
+                        return matches[0]
+            except Exception:
+                continue
+        return None
 
     def _process_job(self, job_data):
         """
